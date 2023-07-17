@@ -36,6 +36,7 @@
 import os
 import xlsxwriter
 import csv
+import pandas as pd
 
 # UI
 from tkinter import filedialog
@@ -142,115 +143,131 @@ def parse_performance(file, sheet):
     gzip_uncompress = sub_row_22[-2]
 
     # Write to the csv now.
-    my_worksheet.write('A1', my_file)
-    my_worksheet.write('B1', 'Crossmark Overall Score')
-    my_worksheet.write('C1', crossmark_score)
+    my_worksheet.write('A1', 'Iteration/File Name')
+    my_worksheet.write('B1', 'Test Type')
+    my_worksheet.write('C1', 'Score/Time')
 
     my_worksheet.write('A2', my_file)
-    my_worksheet.write('B2', 'Productivity Score')
-    my_worksheet.write('C2', productivity_score)
+    my_worksheet.write('B2', 'Crossmark Overall Score')
+    my_worksheet.write('C2', crossmark_score)
 
     my_worksheet.write('A3', my_file)
-    my_worksheet.write('B3', 'Creativity Score')
-    my_worksheet.write('C3', creativity_score)
+    my_worksheet.write('B3', 'Productivity Score')
+    my_worksheet.write('C3', productivity_score)
 
     my_worksheet.write('A4', my_file)
-    my_worksheet.write('B4', 'Responsiveness Score')
-    my_worksheet.write('C4', responsiveness_score)
+    my_worksheet.write('B4', 'Creativity Score')
+    my_worksheet.write('C4', creativity_score)
 
     my_worksheet.write('A5', my_file)
-    my_worksheet.write('B5', 'zstd_uncompress_legacy')
-    my_worksheet.write('C5', zstd_uncompress_legacy)
+    my_worksheet.write('B5', 'Responsiveness Score')
+    my_worksheet.write('C5', responsiveness_score)
 
     my_worksheet.write('A6', my_file)
-    my_worksheet.write('B6', 'random_read')
-    my_worksheet.write('C6', random_read)
+    my_worksheet.write('B6', 'zstd_uncompress_legacy')
+    my_worksheet.write('C6', zstd_uncompress_legacy)
 
     my_worksheet.write('A7', my_file)
-    my_worksheet.write('B7', 'black_scholes_serial')
-    my_worksheet.write('C7', black_scholes_serial)
+    my_worksheet.write('B7', 'random_read')
+    my_worksheet.write('C7', random_read)
 
     my_worksheet.write('A8', my_file)
-    my_worksheet.write('B8', 'string_search')
-    my_worksheet.write('C8', string_search)
+    my_worksheet.write('B8', 'black_scholes_serial')
+    my_worksheet.write('C8', black_scholes_serial)
 
     my_worksheet.write('A9', my_file)
-    my_worksheet.write('B9', 'random_write')
-    my_worksheet.write('C9', random_write)
+    my_worksheet.write('B9', 'string_search')
+    my_worksheet.write('C9', string_search)
 
     my_worksheet.write('A10', my_file)
-    my_worksheet.write('B10', 'object_detection')
-    my_worksheet.write('C10', object_detection)
+    my_worksheet.write('B10', 'random_write')
+    my_worksheet.write('C10', random_write)
 
     my_worksheet.write('A11', my_file)
-    my_worksheet.write('B11', 'ef_face_recognition')
-    my_worksheet.write('C11', ef_face_recognition)
+    my_worksheet.write('B11', 'object_detection')
+    my_worksheet.write('C11', object_detection)
 
     my_worksheet.write('A12', my_file)
-    my_worksheet.write('B12', 'zstd_compress_legacy')
-    my_worksheet.write('C12', zstd_compress_legacy)
+    my_worksheet.write('B12', 'ef_face_recognition')
+    my_worksheet.write('C12', ef_face_recognition)
 
     my_worksheet.write('A13', my_file)
-    my_worksheet.write('B13', 'zstd_uncompress_streaming')
-    my_worksheet.write('C13', zstd_uncompress_streaming)
+    my_worksheet.write('B13', 'zstd_compress_legacy')
+    my_worksheet.write('C13', zstd_compress_legacy)
 
     my_worksheet.write('A14', my_file)
-    my_worksheet.write('B14', 'fdt_by_medianflow_tracker')
-    my_worksheet.write('C14', fdt_by_medianflow_tracker)
+    my_worksheet.write('B14', 'zstd_uncompress_streaming')
+    my_worksheet.write('C14', zstd_uncompress_streaming)
 
     my_worksheet.write('A15', my_file)
-    my_worksheet.write('B15', 'black_scholes_parallel')
-    my_worksheet.write('C15', black_scholes_parallel)
+    my_worksheet.write('B15', 'fdt_by_medianflow_tracker')
+    my_worksheet.write('C15', fdt_by_medianflow_tracker)
 
     my_worksheet.write('A16', my_file)
-    my_worksheet.write('B16', 'create_sqlite_blob')
-    my_worksheet.write('C16', create_sqlite_blob)
+    my_worksheet.write('B16', 'black_scholes_parallel')
+    my_worksheet.write('C16', black_scholes_parallel)
 
     my_worksheet.write('A17', my_file)
-    my_worksheet.write('B17', 'video_colorization')
-    my_worksheet.write('C17', video_colorization)
+    my_worksheet.write('B17', 'create_sqlite_blob')
+    my_worksheet.write('C17', create_sqlite_blob)
 
     my_worksheet.write('A18', my_file)
-    my_worksheet.write('B18', 'external_sort')
-    my_worksheet.write('C18', external_sort)
+    my_worksheet.write('B18', 'video_colorization')
+    my_worksheet.write('C18', video_colorization)
 
     my_worksheet.write('A19', my_file)
-    my_worksheet.write('B19', 'chacha20_encrypt_openssl')
-    my_worksheet.write('C19', chacha20_encrypt_openssl)
+    my_worksheet.write('B19', 'external_sort')
+    my_worksheet.write('C19', external_sort)
 
     my_worksheet.write('A20', my_file)
-    my_worksheet.write('B20', 'colorization')
-    my_worksheet.write('C20', colorization)
+    my_worksheet.write('B20', 'chacha20_encrypt_openssl')
+    my_worksheet.write('C20', chacha20_encrypt_openssl)
 
     my_worksheet.write('A21', my_file)
-    my_worksheet.write('B21', 'hdr_stitch')
-    my_worksheet.write('C21', hdr_stitch)
+    my_worksheet.write('B21', 'colorization')
+    my_worksheet.write('C21', colorization)
 
     my_worksheet.write('A22', my_file)
-    my_worksheet.write('B22', 'aes_gcm_encrypt_mt')
-    my_worksheet.write('C22', aes_gcm_encrypt_mt)
+    my_worksheet.write('B22', 'hdr_stitch')
+    my_worksheet.write('C22', hdr_stitch)
 
     my_worksheet.write('A23', my_file)
-    my_worksheet.write('B23', 'memory_workload')
-    my_worksheet.write('C23', memory_workload)
+    my_worksheet.write('B23', 'aes_gcm_encrypt_mt')
+    my_worksheet.write('C23', aes_gcm_encrypt_mt)
 
     my_worksheet.write('A24', my_file)
-    my_worksheet.write('B24', 'chacha20_decrypt_openssl')
-    my_worksheet.write('C24', chacha20_decrypt_openssl)
+    my_worksheet.write('B24', 'memory_workload')
+    my_worksheet.write('C24', memory_workload)
 
     my_worksheet.write('A25', my_file)
-    my_worksheet.write('B25', 'gzip_compress')
-    my_worksheet.write('C25', gzip_compress)
+    my_worksheet.write('B25', 'chacha20_decrypt_openssl')
+    my_worksheet.write('C25', chacha20_decrypt_openssl)
 
     my_worksheet.write('A26', my_file)
-    my_worksheet.write('B26', 'gzip_uncompress')
-    my_worksheet.write('C26', gzip_uncompress)
+    my_worksheet.write('B26', 'gzip_compress')
+    my_worksheet.write('C26', gzip_compress)
+
+    my_worksheet.write('A27', my_file)
+    my_worksheet.write('B27', 'gzip_uncompress')
+    my_worksheet.write('C27', gzip_uncompress)
 
     
 # Selects the appropriate files within directory.
 def pick_file(window, selected_file, workbook):
     if "scores.csv" in selected_file:
         parse_performance(selected_file, workbook)
+
+
+# Merge all of the sheets together into one excel document.
+def combine_results():
+    try:
+        df = pd.concat(pd.read_excel('debug.xlsx', sheet_name = None), ignore_index = False)
+        pd.options.display.precision = 3
+        df.to_excel("combined_data.xlsx")
+        os.system("start EXCEL.exe combined_data.xlsx")
+
+    except:
+        print("Failed to combine excel sheets.")
 
 
 # Program driver.
@@ -271,8 +288,8 @@ def main():
     if os.path.exists('debug.xlsx'):
         os.remove('debug.xlsx')
 
-    if os.path.exists('database.xlsx'):
-        os.remove('database.xlsx')
+    if os.path.exists('combined_data.xlsx'):
+        os.remove('combined_data.xlsx')
 
     workbook = xlsxwriter.Workbook('debug.xlsx')
 
@@ -291,3 +308,6 @@ def main():
 if __name__ == "__main__":
     print("Starting program")
     main()
+    print("Combining results.")
+    combine_results()
+    print("Parsing complete.")
