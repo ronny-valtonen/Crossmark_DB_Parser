@@ -49,9 +49,14 @@ from tkinter import *
 # Parses the initial Crossmark test scores.
 def parse_performance(file, sheet):
     print("Found initial Crossmark performance csv, beginning data collection.")
+
+    # Get run folder
+    split_data = file.split("\\")
+    my_file = split_data[-2]
+
     # Collect the data here
     # Create a worksheet to write to.
-    my_worksheet = sheet.add_worksheet()
+    my_worksheet = sheet.add_worksheet(my_file)
 
     # with open(file, newline = '') as csvfile:
     #     main_reader = csv.reader(csvfile, delimiter = ' ', quotechar = '|')
@@ -74,10 +79,6 @@ def parse_performance(file, sheet):
     productivity_score = real_row_2[4]
     creativity_score = real_row_3[4]
     responsiveness_score = real_row_4[4]
-
-    # Get run folder
-    split_data = file.split("\\")
-    my_file = split_data[-2]
 
     # Once done, parse the subtest csv file.
     print("Grabbing subtests")
@@ -278,48 +279,51 @@ def combine_results():
 def transposer():
     print("Transposing...")
     
-    # wb = load_workbook("combined_data.xlsx")
-    # # Select the first worksheet
-    # sheet = wb.worksheets[0]
-    # columns = sheet["G1"].value = "Crossmark Overall Score"
-    # columns = sheet["H1"].value = "Productivity Score"
-    # columns = sheet["I1"].value = "Creativity Score"
-    # columns = sheet["J1"].value = "Responsiveness Score"
-    # columns = sheet["K1"].value = "zstd_uncompress_legacy"
-    # columns = sheet["L1"].value = "random_read"
-    # columns = sheet["M1"].value = "black_scholes_serial"
-    # columns = sheet["N1"].value = "string_search"
-    # columns = sheet["O1"].value = "random_write"
-    # columns = sheet["P1"].value = "object_detection"
-    # columns = sheet["Q1"].value = "ef_face_recognition"
-    # columns = sheet["R1"].value = "zstd_compress_legacy"
-    # columns = sheet["S1"].value = "zstd_uncompress_streaming"
-    # columns = sheet["T1"].value = "fdt_by_medianflow_tracker"
-    # columns = sheet["U1"].value = "black_scholes_parallel"
-    # columns = sheet["V1"].value = "create_sqlite_blob"
-    # columns = sheet["W1"].value = "video_colorization"
-    # columns = sheet["X1"].value = "external_sort"
-    # columns = sheet["Y1"].value = "chacha20_encrypt_openssl"
-    # columns = sheet["Z1"].value = "colorization"
-    # columns = sheet["AA1"].value = "hdr_stitch"
-    # columns = sheet["AB1"].value = "aes_gcm_encrypt_mt"
-    # columns = sheet["AC1"].value = "memory_workload"
-    # columns = sheet["AD1"].value = "chacha20_decrypt_openssl"
-    # columns = sheet["AE1"].value = "gzip_compress"
-    # columns = sheet["AF1"].value = "gzip_uncompress"
-    # wb.save("combined_data.xlsx")
+    # Open the workbook
+    wb = load_workbook("combined_data.xlsx")
+
+    # Change cell values to approriate terms.
+    sheet = wb.worksheets[0]
+    columns = sheet["C1"].value = "Iteration"
+    columns = sheet["D1"].value = "Crossmark Overall Score"
+    columns = sheet["E1"].value = "Productivity Score"
+    columns = sheet["F1"].value = "Creativity Score"
+    columns = sheet["G1"].value = "Responsiveness Score"
+    columns = sheet["H1"].value = "zstd_uncompress_legacy"
+    columns = sheet["I1"].value = "random_read"
+    columns = sheet["J1"].value = "black_scholes_serial"
+    columns = sheet["K1"].value = "string_search"
+    columns = sheet["L1"].value = "random_write"
+    columns = sheet["M1"].value = "object_detection"
+    columns = sheet["N1"].value = "ef_face_recognition"
+    columns = sheet["O1"].value = "zstd_compress_legacy"
+    columns = sheet["P1"].value = "zstd_uncompress_streaming"
+    columns = sheet["Q1"].value = "fdt_by_medianflow_tracker"
+    columns = sheet["R1"].value = "black_scholes_parallel"
+    columns = sheet["S1"].value = "create_sqlite_blob"
+    columns = sheet["T1"].value = "video_colorization"
+    columns = sheet["U1"].value = "external_sort"
+    columns = sheet["V1"].value = "chacha20_encrypt_openssl"
+    columns = sheet["W1"].value = "colorization"
+    columns = sheet["X1"].value = "hdr_stitch"
+    columns = sheet["Y1"].value = "aes_gcm_encrypt_mt"
+    columns = sheet["Z1"].value = "memory_workload"
+    columns = sheet["AA1"].value = "chacha20_decrypt_openssl"
+    columns = sheet["AB1"].value = "gzip_compress"
+    columns = sheet["AC1"].value = "gzip_uncompress"
+    wb.save("combined_data.xlsx")
     # print("Creating CSV File.")
     # csv.writer('transposed.csv', dialect='excel')
 
-    overall_score = [['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
-                        ['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
-                        ['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
-                        ['2345', '3465', '2344', '3454', '3452', '2342', '34521']]
+    # overall_score = [['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
+    #                     ['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
+    #                     ['2345', '3465', '2344', '3454', '3452', '2342', '34521'],
+    #                     ['2345', '3465', '2344', '3454', '3452', '2342', '34521']]
 
     # file = open('transposed.csv' 'a+', newline = '')
-    workbook = xlsxwriter.Workbook('transpose.xlsx')
-    my_worksheet = workbook.add_worksheet()
-    my_worksheet.write("A1", "Test")
+    # workbook = xlsxwriter.Workbook('transpose.xlsx')
+    # my_worksheet = workbook.add_worksheet()
+    # my_worksheet.write("A1", "Test")
 
     # with file:
     #     write = csv.writer(file)
@@ -360,7 +364,7 @@ def main():
     if os.path.exists('combined_data.xlsx'):
         os.remove('combined_data.xlsx')
 
-    workbook = xlsxwriter.Workbook('debug.xlsx')
+    workbook = xlsxwriter.Workbook('debug.xlsx', {'constant_memory': True})
 
     for root, dirs, files in os.walk(window.filename):
         for file in files:
